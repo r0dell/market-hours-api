@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: market-hours-api
+    runtime: docker
+    plan: starter
+    healthCheckPath: /health
+    envVars:
+      - key: PAY_TO
+        value: "0xb2B76AdbC021Dda03d2b04943079B9d174d5779F"
+      - key: X402_NETWORK
+        value: testnet
+      - key: CDP_API_KEY_ID
+        sync: false
+      - key: CDP_API_KEY_SECRET
+        sync: false
