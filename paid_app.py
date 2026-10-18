@@ -39,9 +39,31 @@ if MODE not in NETWORKS:
     raise SystemExit("X402_NETWORK muss 'testnet' oder 'mainnet' sein.")
 NETWORK = NETWORKS[MODE]
 
-if os.environ.get("CDP_API_KEY_ID") and os.environ.get("CDP_API_KEY_SECRET"):
+CDP_ID = os.environ.get("CDP_API_KEY_ID", "").strip().strip('"\'').strip()
+CDP_SECRET = os.environ.get("CDP_API_KEY_SECRET", "").strip().strip('"\'').strip()
+if "BEGIN" in CDP_SECRET:
+    CDP_SECRET = CDP_SECRET.replace("\\n", "\n")  # PEM aus einzeiligem Feld
+
+
+def _describe_cdp_keys() -> str:
+    """Format der Keys beschreiben, ohne Werte preiszugeben."""
+    id_kind = ("uuid" if re.fullmatch(r"[0-9a-fA-F-]{36}", CDP_ID)
+               else "organizations-path" if CDP_ID.startswith("organizations/") else "other")
+    if "BEGIN EC PRIVATE KEY" in CDP_SECRET:
+        sec_kind = "ec-pem"
+    else:
+        try:
+            import base64
+            sec_kind = f"base64-{len(base64.b64decode(CDP_SECRET, validate=True))}bytes"
+        except Exception:
+            sec_kind = "unparseable"
+    return f"CDP key: id={id_kind} (len {len(CDP_ID)}), secret={sec_kind} (len {len(CDP_SECRET)})"
+
+
+if CDP_ID and CDP_SECRET:
     from cdp.x402 import create_facilitator_config
-    facilitator_cfg = create_facilitator_config()
+    print(_describe_cdp_keys(), flush=True)
+    facilitator_cfg = create_facilitator_config(CDP_ID, CDP_SECRET)
 elif MODE == "mainnet":
     raise SystemExit("Für mainnet werden CDP_API_KEY_ID und CDP_API_KEY_SECRET benötigt.")
 else:
