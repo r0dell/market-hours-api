@@ -2,7 +2,7 @@ services:
   - type: web
     name: market-hours-api
     runtime: docker
-    plan: starter
+    plan: free
     healthCheckPath: /health
     envVars:
       - key: PAY_TO
