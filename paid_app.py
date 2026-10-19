@@ -88,7 +88,7 @@ def pay(price: str) -> PaymentOption:
 
 routes = {
     "GET /v1/is-open": RouteConfig(
-        accepts=pay("$0.001"),
+        accepts=pay("$0.01"),
         description="Returns whether a stock exchange or futures market is open at a given "
                     "time, the session type (open, break, closed), and the next open and close "
                     "times in UTC and local time.",
@@ -107,7 +107,7 @@ routes = {
         ),
     ),
     "GET /v1/next": RouteConfig(
-        accepts=pay("$0.001"),
+        accepts=pay("$0.01"),
         description="Returns the next open and next close time of a stock exchange or "
                     "futures market after a given time.",
         mime_type="application/json",
@@ -126,7 +126,7 @@ routes = {
         ),
     ),
     "GET /v1/holidays": RouteConfig(
-        accepts=pay("$0.002"),
+        accepts=pay("$0.02"),
         description="Returns closed weekdays (holidays) and early-close days of a stock "
                     "exchange or futures market within a date range of up to two years.",
         mime_type="application/json",
