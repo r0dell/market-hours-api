@@ -41,8 +41,8 @@ Futures: `CME_EQUITY` (ES, NQ, MES, MNQ …), `EUREX_INDEX` (FDAX, FESX, FSMI).
 
 | Endpunkt | Preis |
 |---|---|
-| `/v1/is-open`, `/v1/next` | 0.01 USDC |
-| `/v1/holidays` | 0.02 USDC |
+| `/v1/is-open`, `/v1/next` | 0.0205 USDC |
+| `/v1/holidays` | 0.0405 USDC |
 | `/v1/markets`, `/health`, `/docs` | gratis |
 
 Ohne Zahlung antworten die bezahlten Endpunkte mit HTTP 402 und den Zahlungsdetails.
